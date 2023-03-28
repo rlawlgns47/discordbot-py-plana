@@ -59,7 +59,7 @@ def is_spamming(author_id):
     time_frame = time_frames.get(author_id, now)
     message_count = message_counts.get(author_id, 0)
     
-    # Set time frame for user to 5 seconds
+    # Set time frame for user to 2 seconds
     time_frames[author_id] = now + timedelta(seconds=2)
     
     # Reset message count and delete expired data if time frame has passed
@@ -74,7 +74,7 @@ def is_spamming(author_id):
     
     # Increase message count and check if spamming
     message_counts[author_id] = message_count + 1
-    return message_count >= 5 # Change 5 to desired message count threshold
+    return message_count >= 3 # Change 5 to desired message count threshold
 
 def decrease_red_cards():
     while True:
@@ -141,7 +141,7 @@ async def on_message(message):
 
         add_red_card(message.author.id)
 
-        if red_cards.get(message.author.id, 0) >= 3:
+        if red_cards.get(message.author.id, 0) >= 2:
             guild = message.guild
             role_id = 1087892271703261316 # Replace with the role ID you want to give to the user
             role = guild.get_role(role_id)
