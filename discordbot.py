@@ -39,7 +39,7 @@ async def on_ready():
     await app.change_presence(status=discord.Status.online, activity=None)
     
     channel = app.get_channel(1032650685180813312)
-    message_id = 1087716720757706873
+    message_id = 108771672075770687
     message = None
     async for msg in channel.history(limit=None):
         if msg.id == message_id:
