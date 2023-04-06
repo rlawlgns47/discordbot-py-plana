@@ -46,7 +46,7 @@ async def on_ready():
             message = msg
             break
     if message is None:
-        message = await channel.send("🇴 :OverWatch\n🇻 :VALORANT\n🇦 :APEX\n🇱 :LOL (league of legends)\n🇪 :EFT (escape form tarkov)\n🅾️ :Other (other games)")
+        message = await channel.send("🇴 :OverWatch\n🇻 :VALORANT\n🇦 :APEX\n🇱 :LOL (league of legends)\n🇪 :EFT (escape from tarkov)\n🅾️ :Other (other games)")
         await message.add_reaction("🇴")
         await message.add_reaction("🇻")
         await message.add_reaction("🇦")
