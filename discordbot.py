@@ -39,7 +39,7 @@ async def on_ready():
     await app.change_presence(status=discord.Status.online, activity=None)
     
     channel = app.get_channel(1032650685180813312)
-    message_id = 108771672075770687
+    message_id = 1093509697279102996
     message = None
     async for msg in channel.history(limit=None):
         if msg.id == message_id:
@@ -171,7 +171,7 @@ ROLES = {
 # 이벤트 핸들러
 @app.event
 async def on_raw_reaction_add(payload):
-    if payload.message_id == 1087716720757706873:  # 역할 부여를 받을 메시지 ID를 수정해주세요.
+    if payload.message_id == 1093509697279102996:  # 역할 부여를 받을 메시지 ID를 수정해주세요.
         guild = app.get_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
         if member.bot:
@@ -185,7 +185,7 @@ async def on_raw_reaction_add(payload):
 
 @app.event
 async def on_raw_reaction_remove(payload):
-    if payload.message_id == 1087716720757706873:  # 역할 부여를 받을 메시지 ID를 수정해주세요.
+    if payload.message_id == 1093509697279102996:  # 역할 부여를 받을 메시지 ID를 수정해주세요.
         guild = app.get_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
         if member.bot:
