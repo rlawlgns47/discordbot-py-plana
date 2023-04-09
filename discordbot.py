@@ -81,7 +81,7 @@ async def on_ready():
 
     while True:
         now = datetime.now(pytz.timezone("Asia/Tokyo"))
-        if now.hour == 10 and now.minute == 43:
+        if now.hour == 8: # and now.minute == 43:
             high_temp, low_temp, t1, t2, t3, t4, warning_title, warning_desc, weather_text, image_url  = get_osaka_weather()
             embed = discord.Embed(title="大阪基準で今日の天気をお知らせします", description=weather_text, color=0xFF00AA)
             embed.add_field(name="最高気温", value=f"{high_temp}℃", inline=True)
@@ -94,7 +94,7 @@ async def on_ready():
             embed.set_footer(text="おはようございます")
             embed.set_image(url=image_url)
             await app.get_channel(1087556634005479544).send(embed=embed)
-        await asyncio.sleep(60) #1분마다 체크
+        await asyncio.sleep(3600) #1시마다 체크
 
 def is_spamming(author_id):
     now = datetime.now()
