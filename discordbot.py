@@ -93,7 +93,7 @@ async def on_ready():
             embed.add_field(name="12-18時降水確率", value=t3, inline=True)
             embed.add_field(name="18-24時降水確率", value=t4, inline=True)
             if warning_title and warning_desc:
-                embed.add_field(name="大阪府の警報・注意報", value=f"{warning_title}{warning_desc}", inline=False)
+                embed.add_field(name="大阪府の警報・注意報", value=f"{warning_title}：{warning_desc}", inline=False)
             embed.set_footer(text="おはようございます")
             embed.set_image(url=image_url)
             await app.get_channel(1087556634005479544).send(embed=embed)
