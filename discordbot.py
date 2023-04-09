@@ -176,7 +176,7 @@ async def on_message(message):
             await member.add_roles(role)
             await message.channel.send(f"{message.author.mention}, {role.name} 役割を与えました！ {adrole.mention},{sadrole.mention} 管理者がくるまでお待ちください！")
             
-     elif message.channel.id == target_channel_id and message.content != '':
+    elif message.channel.id == target_channel_id and message.content != '':
         original_text = message.content
         translated_text = translator.translate(original_text, dest='ja').text
         if original_text != translated_text:
