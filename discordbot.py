@@ -83,7 +83,7 @@ async def on_ready():
 
     while True:
         now = datetime.now(pytz.timezone("Asia/Tokyo"))
-        if now.hour == 8 and now.minute == 37:
+        if now.hour == 8 and now.minute == 0:
             high_temp, low_temp, t1, t2, t3, t4, warning_title, warning_desc, weather_text, image_url  = get_osaka_weather()
             embed = discord.Embed(title="大阪基準で今日の天気をお知らせします", description=weather_text, color=0xFF00AA)
             embed.add_field(name="最高気温", value=f"{high_temp}℃", inline=True)
