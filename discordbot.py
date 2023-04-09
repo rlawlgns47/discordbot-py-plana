@@ -180,9 +180,9 @@ async def on_message(message):
          original_text = message.content
          translated_text = translator.translate(original_text, dest='ja').text
          if original_text != translated_text:
-             embed = Embed(title=f"{message.author.display_name}さんのメッセージを翻訳しました", color=0x00AAFF)
-             embed.add_field(name="", value=translated_text, inline=False)
-             await message.channel.send(embed=embed) 
+            embed = Embed(title=f"{message.author.display_name}さんのメッセージを翻訳しました", color=0x00AAFF)
+            embed.add_field(name="", value=translated_text, inline=False)
+            await message.channel.send(embed=embed) 
 
         return
     
