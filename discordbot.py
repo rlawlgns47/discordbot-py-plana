@@ -1,14 +1,19 @@
 from cmath import log
 from distutils.sysconfig import PREFIX
 import discord
+from discord import Embed
 from dotenv import load_dotenv
 import os
 load_dotenv()
+import requests
 from discord.ext import commands
 from datetime import datetime, timedelta
 import threading
 import random
 import time
+from bs4 import BeautifulSoup
+import asyncio
+import pytz
  
 PREFIX = os.environ['PREFIX']
 TOKEN = os.environ['TOKEN']
@@ -33,26 +38,63 @@ WARNING_MESSAGES = ["長文の連投ですか？やめてください！",
                    "長文は連投として判断します！やめてください！"
                    ]
 
+def get_osaka_weather():
+    url = "https://weather.yahoo.co.jp/weather/jp/27/6200.html"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    high_temp = soup.select_one('li.high em').text
+    low_temp = soup.select_one('li.low em').text
+    t1 = soup.select_one('tr.precip td:nth-child(2)').text
+    t2 = soup.select_one('tr.precip td:nth-child(3)').text
+    t3 = soup.select_one('tr.precip td:nth-child(4)').text
+    t4 = soup.select_one('tr.precip td:nth-child(5)').text
+    warning_area = soup.select_one('div.warnAdv_area')
+    warning_title = warning_area.select_one('span.icoAdvisory span').text
+    warning_desc = warning_area.select_one('dd').text
+    weather_icon = soup.select_one('p.pict img')
+    weather_text = weather_icon['alt']
+    img_tag = soup.select_one('p.pict img')
+    image_url = img_tag['src']
+    return high_temp, low_temp, t1, t2, t3, t4, warning_title, warning_desc, weather_text, image_url
+ 
+
 @app.event
 async def on_ready():
     print('Done')
     await app.change_presence(status=discord.Status.online, activity=None)
     
     channel = app.get_channel(1032650685180813312)
-    message_id = 1093509697279102996
+    message_id = 1094422274607689759
     message = None
     async for msg in channel.history(limit=None):
         if msg.id == message_id:
             message = msg
             break
     if message is None:
-        message = await channel.send("🇴 :OverWatch\n🇻 :VALORANT\n🇦 :APEX\n🇱 :LOL (league of legends)\n🇪 :EFT (escape from tarkov)\n🅾️ :Other (other games)")
+        message = await channel.send("🇴 :OVERWATCH\n🇻 :VALORANT\n🇦 :APEX\n🇱 :League of Legends\n🇪 :Escape From Tarkov\n🅾️ :Other games")
         await message.add_reaction("🇴")
         await message.add_reaction("🇻")
         await message.add_reaction("🇦")
         await message.add_reaction("🇱")
         await message.add_reaction("🇪")
         await message.add_reaction("🅾️")
+
+    while True:
+        now = datetime.now(pytz.timezone("Asia/Tokyo"))
+        if now.hour == 10 and now.minute == 43:
+            high_temp, low_temp, t1, t2, t3, t4, warning_title, warning_desc, weather_text, image_url  = get_osaka_weather()
+            embed = discord.Embed(title="大阪基準で今日の天気をお知らせします", description=weather_text, color=0xFF00AA)
+            embed.add_field(name="最高気温", value=f"{high_temp}℃", inline=True)
+            embed.add_field(name="最低気温", value=f"{low_temp}℃", inline=True)
+            embed.add_field(name="0~6時降水確率", value=t1, inline=True)
+            embed.add_field(name="6~12時降水確率", value=t2, inline=True)
+            embed.add_field(name="12-18時の降水確率", value=t3, inline=True)
+            embed.add_field(name="18-24時降水確率", value=t4, inline=True)
+            embed.add_field(name="大阪府の警報・注意報", value=f"{warning_title}{warning_desc}", inline=False)
+            embed.set_footer(text="おはようございます")
+            embed.set_image(url=image_url)
+            await app.get_channel(1087556634005479544).send(embed=embed)
+        await asyncio.sleep(60) #1분마다 체크
 
 def is_spamming(author_id):
     now = datetime.now()
