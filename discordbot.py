@@ -14,11 +14,13 @@ import time
 from bs4 import BeautifulSoup
 import asyncio
 import pytz
+from googletrans import Translator
  
 PREFIX = os.environ['PREFIX']
 TOKEN = os.environ['TOKEN']
 
 app = commands.Bot(command_prefix='/',intents=discord.Intents.all())
+translator = Translator()
 message_counts = {}
 time_frames = {}
 red_cards = {}
@@ -149,6 +151,7 @@ async def on_message(message):
     if message.author == app.user:
         return
     
+    target_channel_id = 1087556634005479544 # 번역 대상 채널의 ID를 입력해주세요.
 
     if message.content.startswith(app.command_prefix):
         # Process commands in a separate thread
@@ -173,6 +176,13 @@ async def on_message(message):
             await member.add_roles(role)
             await message.channel.send(f"{message.author.mention}, {role.name} 役割を与えました！ {adrole.mention},{sadrole.mention} 管理者がくるまでお待ちください！")
             
+     elif message.channel.id == target_channel_id and message.content != '':
+         original_text = message.content
+         translated_text = translator.translate(original_text, dest='ja').text
+         if original_text != translated_text:
+             embed = Embed(title=f"{message.author.display_name}さんのメッセージを翻訳しました", color=0x00AAFF)
+             embed.add_field(name="", value=translated_text, inline=False)
+             await message.channel.send(embed=embed) 
 
         return
     
