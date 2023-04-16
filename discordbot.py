@@ -50,7 +50,7 @@ def get_osaka_weather():
     t2 = soup.select_one('tr.precip td:nth-child(3)').text
     t3 = soup.select_one('tr.precip td:nth-child(4)').text
     t4 = soup.select_one('tr.precip td:nth-child(5)').text
-    warning_area = soup.select_one('div.warnAdv_area')
+    warning_area = soup.select_one('a[href*="warn"]')
     warning_title = warning_area.select_one('span.icoAdvisory span').text
     warning_desc = warning_area.select_one('dd').text
     weather_icon = soup.select_one('p.pict img')
@@ -83,7 +83,7 @@ async def on_ready():
 
     while True:
         now = datetime.now(pytz.timezone("Asia/Tokyo"))
-        if now.hour == 8 and now.minute == 0:
+        if now.hour == 12 and now.minute == 22:
             high_temp, low_temp, t1, t2, t3, t4, warning_title, warning_desc, weather_text, image_url  = get_osaka_weather()
             embed = discord.Embed(title="大阪基準で今日の天気をお知らせします", description=weather_text, color=0xFF00AA)
             embed.add_field(name="最高気温", value=f"{high_temp}℃", inline=True)
