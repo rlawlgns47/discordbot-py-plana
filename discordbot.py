@@ -50,14 +50,11 @@ def get_osaka_weather():
     t2 = soup.select_one('tr.precip td:nth-child(3)').text
     t3 = soup.select_one('tr.precip td:nth-child(4)').text
     t4 = soup.select_one('tr.precip td:nth-child(5)').text
-    warning_area = soup.select_one('a[href*="warn"]')
-    warning_title = warning_area.select_one('span.icoAdvisory span').text
-    warning_desc = warning_area.select_one('dd').text
     weather_icon = soup.select_one('p.pict img')
     weather_text = weather_icon['alt']
     img_tag = soup.select_one('p.pict img')
     image_url = img_tag['src']
-    return high_temp, low_temp, t1, t2, t3, t4, warning_title, warning_desc, weather_text, image_url
+    return high_temp, low_temp, t1, t2, t3, t4, weather_text, image_url
  
 
 @app.event
@@ -83,7 +80,7 @@ async def on_ready():
 
     while True:
         now = datetime.now(pytz.timezone("Asia/Tokyo"))
-        if now.hour == 12 and now.minute == 22:
+        if now.hour == 15 and now.minute == 50:
             high_temp, low_temp, t1, t2, t3, t4, warning_title, warning_desc, weather_text, image_url  = get_osaka_weather()
             embed = discord.Embed(title="大阪基準で今日の天気をお知らせします", description=weather_text, color=0xFF00AA)
             embed.add_field(name="最高気温", value=f"{high_temp}℃", inline=True)
@@ -92,8 +89,6 @@ async def on_ready():
             embed.add_field(name="6~12時降水確率", value=t2, inline=True)
             embed.add_field(name="12-18時降水確率", value=t3, inline=True)
             embed.add_field(name="18-24時降水確率", value=t4, inline=True)
-            if warning_title and warning_desc:
-                embed.add_field(name="大阪府の警報・注意報", value=f"{warning_title}：{warning_desc}", inline=False)
             embed.set_footer(text="おはようございます")
             embed.set_image(url=image_url)
             await app.get_channel(1087556634005479544).send(embed=embed)
