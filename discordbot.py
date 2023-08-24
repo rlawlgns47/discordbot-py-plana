@@ -14,7 +14,8 @@ import time
 from bs4 import BeautifulSoup
 import asyncio
 import pytz
- 
+import openai
+
 PREFIX = os.environ['PREFIX']
 TOKEN = os.environ['TOKEN']
 OPENAI_API_KEY = os.environ['GPT']
