@@ -138,7 +138,7 @@ def add_red_card(user_id):
 
 @app.event
 async def on_message(message):
-
+    global last_conversation_reset_time
     spam_messages = [
     f"{message.author.mention}さん、連投は禁止です!",
     f"{message.author.mention}さん、連投はやめてください！",
@@ -150,13 +150,7 @@ async def on_message(message):
 
     if message.author == app.user:
         return
-    
-    target_channel_id = 1087556634005479544 # 번역 대상 채널의 ID를 입력해주세요.
-
-    if message.content.startswith(app.command_prefix):
-        # Process commands in a separate thread
-        await app.loop.run_in_executor(None, app.process_commands, message)
-        return
+  
     
     # 메세지 길이가 최대 글자수 돌파하는지 체크
     if message_length > threshold:
