@@ -172,8 +172,8 @@ async def on_message(message):
     if message.author == app.user:
         return
     text = message.content
-    if text.startswith('プラナ '):
-        user_input = text[4:]
+    if text.startswith('プラナ'):
+        user_input = text[3:]
 
         # 이전 대화 내용을 포함하여 대화 진행
         conversation_history.append({"role": "user", "content": user_input})
