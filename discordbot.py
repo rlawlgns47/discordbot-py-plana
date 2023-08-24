@@ -31,6 +31,7 @@ openai.api_key = OPENAI_API_KEY
 
 # 이전 대화 내용을 담을 리스트
 conversation_history = []
+last_conversation_reset_time = time.time()
 
 # Time interval to keep data in memory (in seconds)
 DATA_EXPIRATION_TIME = 3600
@@ -180,7 +181,13 @@ async def on_message(message):
     text = message.content
     if text.startswith('プラナ'):
         user_input = text[3:]
-
+      
+        current_time = time.time()
+        time_elapsed = current_time - last_conversation_reset_time
+        
+        if time_elapsed >= 600:  # 10분(600초)이 경과하면 대화 초기화
+            conversation_history.clear()
+            last_conversation_reset_time = current_time
         # 이전 대화 내용을 포함하여 대화 진행
         conversation_history.append({"role": "user", "content": user_input})
 
