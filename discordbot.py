@@ -26,6 +26,11 @@ red_cards = {}
 admin_id = 888839822184153089
 semiadmin_id = 1087589293750497300
 
+openai.api_key = OPENAI_API_KEY
+
+# 이전 대화 내용을 담을 리스트
+conversation_history = []
+
 # Time interval to keep data in memory (in seconds)
 DATA_EXPIRATION_TIME = 3600
 
