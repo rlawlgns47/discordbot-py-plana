@@ -173,7 +173,7 @@ async def on_message(message):
     if message.author == app.user:
         return
     text = message.content
-    if text.startswith('아로나 '):
+    if text.startswith('プラナ '):
         user_input = text[4:]
 
         # 이전 대화 내용을 포함하여 대화 진행
@@ -182,7 +182,7 @@ async def on_message(message):
         bot_response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "MD 스튜디오 디스코드 채널 서포트 AI 아로나입니다!."},
+                {"role": "system", "content": "MD studioディスコードチャンネルサポートAIプラナです"},
                 {"role": "user", "content": user_input}
             ] + conversation_history,  # 이전 대화 내용 추가
             temperature=0.5
