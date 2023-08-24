@@ -14,11 +14,10 @@ import time
 from bs4 import BeautifulSoup
 import asyncio
 import pytz
-from googletrans import Translator
  
 PREFIX = os.environ['PREFIX']
 TOKEN = os.environ['TOKEN']
-
+OPENAI_API_KEY = os.environ['GPT']
 app = commands.Bot(command_prefix='/',intents=discord.Intents.all())
 translator = Translator()
 message_counts = {}
@@ -171,13 +170,30 @@ async def on_message(message):
             await member.add_roles(role)
             await message.channel.send(f"{message.author.mention}, {role.name} 役割を与えました！ {adrole.mention},{sadrole.mention} 管理者がくるまでお待ちください！")
             
-    elif message.channel.id == target_channel_id and message.content != '':
-        original_text = message.content
-        translated_text = translator.translate(original_text, dest='ja').text
-        if original_text != translated_text:
-             embed = Embed(title=f"{message.author.display_name}さんのメッセージを翻訳しました", color=0xFF00AA)
-             embed.add_field(name="", value=translated_text, inline=False)
-             await message.channel.send(embed=embed)  
+    if message.author == app.user:
+        return
+    text = message.content
+    if text.startswith('아로나 '):
+        user_input = text[4:]
+
+        # 이전 대화 내용을 포함하여 대화 진행
+        conversation_history.append({"role": "user", "content": user_input})
+
+        bot_response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "MD 스튜디오 디스코드 채널 서포트 AI 아로나입니다!."},
+                {"role": "user", "content": user_input}
+            ] + conversation_history,  # 이전 대화 내용 추가
+            temperature=0.5
+        )
+
+        # 대화 내용 업데이트
+        conversation_history.append({"role": "assistant", "content": bot_response['choices'][0]['message']['content']})
+        
+        #print(bot_response)
+        bot_text = '\n'.join([choice['message']['content'] for choice in bot_response['choices']])
+        await message.channel.send(f"{bot_text}")
 
         return
     
