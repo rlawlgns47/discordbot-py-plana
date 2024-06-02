@@ -186,7 +186,7 @@ async def on_message(message):
         conversation_history.append({"role": "user", "content": user_input})
 
         bot_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "MD studioディスコードチャンネルサポートAIプラナです"},
                 {"role": "user", "content": user_input}
