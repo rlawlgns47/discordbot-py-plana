@@ -83,22 +83,6 @@ async def on_ready():
         await message.add_reaction("🇪")
         await message.add_reaction("🅾️")
 
-    while True:
-        now = datetime.now(pytz.timezone("Asia/Tokyo"))
-        if now.hour == 7 and now.minute == 0:
-            high_temp, low_temp, t1, t2, t3, t4, weather_text, image_url  = get_osaka_weather()
-            embed = discord.Embed(title="大阪基準で今日の天気をお知らせします", description=weather_text, color=0xFF00AA)
-            embed.add_field(name="最高気温", value=f"{high_temp}℃", inline=True)
-            embed.add_field(name="最低気温", value=f"{low_temp}℃", inline=True)
-            embed.add_field(name="0~6時降水確率", value=t1, inline=True)
-            embed.add_field(name="6~12時降水確率", value=t2, inline=True)
-            embed.add_field(name="12-18時降水確率", value=t3, inline=True)
-            embed.add_field(name="18-24時降水確率", value=t4, inline=True)
-            embed.set_footer(text="おはようございます")
-            embed.set_image(url=image_url)
-            await app.get_channel(1087556634005479544).send(embed=embed)
-        await asyncio.sleep(60) #1마다 체크
-
 def is_spamming(author_id):
     now = datetime.now()
     time_frame = time_frames.get(author_id, now)
