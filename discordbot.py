@@ -25,7 +25,7 @@ time_frames = {}
 red_cards = {}
 
 admin_id = 888839822184153089
-semiadmin_id = 1087589293750497300
+semiadmin_id = 888817303188287519
 
 openai.api_key = OPENAI_API_KEY
 
@@ -124,11 +124,11 @@ def add_red_card(user_id):
 async def on_message(message):
     global last_conversation_reset_time
     spam_messages = [
-    f"{message.author.mention}さん、連投は禁止です!",
-    f"{message.author.mention}さん、連投はやめてください！",
-    f"{message.author.mention}さん、連投はダメです！",
-    f"{message.author.mention}さん、チャットが早すぎます",
-    f"{message.author.mention}さん、連投なんて！管理者に全部言いつけます！"
+    f"{message.author.mention} 도배는 금지되어 있습니다、連投は禁止です!",
+    f"{message.author.mention} 도배는 그만해주세요、連投はやめてください！",
+    f"{message.author.mention} 도배는 금지입니다、連投はダメです！",
+    f"{message.author.mention} 채팅이 너무 빠릅니다、チャットが早すぎます",
+    f"{message.author.mention} 도배는 관리자를 부르도록 하겠습니다、連投なんて！管理者に全部言いつけます！"
 ]
     message_length = len(message.content)
 
@@ -152,7 +152,7 @@ async def on_message(message):
             sadrole = discord.utils.get(message.guild.roles, id=semiadmin_id)
             member = guild.get_member(message.author.id)
             await member.add_roles(role)
-            await message.channel.send(f"{message.author.mention}, {role.name} 役割を与えました！ {adrole.mention},{sadrole.mention} 管理者がくるまでお待ちください！")
+            await message.channel.send(f"{message.author.mention}, {role.name} 역할을 부여했습니다 役割を与えました！ {adrole.mention},{sadrole.mention} 관리자가 올때까지 기다려주세요 管理者がくるまでお待ちください！")
             
     if message.author == app.user:
         return
