@@ -103,7 +103,7 @@ def is_spamming(author_id):
     
     # Increase message count and check if spamming
     message_counts[author_id] = message_count + 1
-    return message_count >= 3 # Change 5 to desired message count threshold
+    return message_count >= 5 # Change 5 to desired message count threshold
 
 def decrease_red_cards():
     while True:
