@@ -203,7 +203,7 @@ async def on_message(message):
             sadrole = discord.utils.get(message.guild.roles, id=semiadmin_id)
             member = guild.get_member(message.author.id)
             await member.add_roles(role)
-            await message.channel.send(f"{message.author.mention}, {role.name} 役割を与えました！ {adrole.mention},{sadrole.mention} 管理者がくるまでお待ちください！")
+            await message.channel.send(f"{message.author.mention}, {role.name} 역할을 부여했습니다 役割を与えました！ {adrole.mention},{sadrole.mention} 관리자가 올때까지 기다려주세요 管理者がくるまでお待ちください！")
             
 
     return
